@@ -9,25 +9,24 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">        
+<div class="container"> 
+  <a href="create/" class="btn btn-info" role="button">Create</a>       
   <table class="table">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>email</th>
-        <th>Address</th>
+        <th>company name</th>
+        <th>Member Id</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
+        @foreach($list as $test)
       <tr>
-        @foreach($members as $member)
-          <td>{{$member["name"]}}</td>
-          <td>{{$member["email"]}}</td>
-          <td>{{$member["address"]}}</td>
-          <td><a href='{{"deleteCompanyDetails/".$member["id"]}}'>Delete</a>|<a href='{{"edit/".$member["id"]}}'>Edit</a></td>
+          <td>{{$test["company_name"]}}</td>
+          <td>{{$test["email"]}}</td>
+          <td><a href="editCompanyDetails/{{$test['id']}}">Edit</a>|<a href='deleteCompanyDetails/{{$test["id"]}}'>Delete</a></td>
       </tr>
-     @endforeach
+      @endforeach
     </tbody>
   </table>
 </div>

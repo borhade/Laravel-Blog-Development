@@ -13,7 +13,7 @@ class MemberDetails extends Controller
     }
 
     public function addUser(Request $req ){
-        $member = new Member(;
+        $member = new Member();
         $member->name = $req->input("name");
         $member->email = $req->input("email");
         $member->address = $req->input("address");
