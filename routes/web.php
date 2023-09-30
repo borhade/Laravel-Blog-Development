@@ -51,3 +51,5 @@ Route::get("/title","MemberDetails@testHasOne");
 Route::get("/testroute/{key:name}","MemberDetails@testPathModeling");
 Route::get("/check","DashboardController@test");
 Route::resource('category','CategoryController');
+Route::get('/delete_category/{id}','CategoryController@destroy');
+Route::get("/test_email", "EmailController@sendEmail");

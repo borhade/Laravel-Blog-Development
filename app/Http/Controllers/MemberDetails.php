@@ -7,14 +7,19 @@ use App\{
     Member,group
 };
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 class MemberDetails extends Controller
 {
     public function show(){
-     return  $data = Member::with("getGroup")->get();
-          //$data = group::with("getMember")->first();
-         // dump($data->getGroup);
-      //echo $data->getGroup;
-     //return view("userlist",["members"=>$data]);
+        
+        //$test = collect(['1','5','3','3']);
+        //dd($test->toJson());
+        //return  $data = Member::with("getGroup")->get();
+        //$data = group::with("getMember")->first();
+        // dump($data->getGroup);
+       //echo $data->getGroup;
+       //return view("userlist",["members"=>$data]);
     }
 
     public function addUser(Request $req ){

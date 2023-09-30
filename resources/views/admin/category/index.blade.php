@@ -3,15 +3,11 @@
   @section("content")
   <div class="row">
     <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">DataTable with default features</h3>
-        </div>
-        <!-- /.card-header -->
-        
+    
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">DataTable with default features</h3>
+            <h3 class="card-title">DataTable with default features</h3>&nbsp;&nbsp;
+            <a href="{{route('category.create')}}" class="btn btn-sm bg-gradient-primary "><i class="fas fa-edit"></i></a>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -20,25 +16,29 @@
               <tr>
                 <th>Name</th>
                 <th>Slug</th>
-                <th>Post Counnt</th>
+                <th>Post Count</th>
                 <th style="width: 40px">Action</th>
               </tr>
               </thead>
               <tbody>
+                @if($category_details)
+                @foreach($category_details as $category_data)
               <tr>
-                <td>Gecko</td>
-                <td>Mozilla 1.3</td>
-                <td>Win 95+ / OSX.1+</td>
-                <td><a href="button" class="btn btn-block bg-gradient-primary btn-sm"><i class="fas fa-edit"></i></a>
-                  <a href="button" class="btn btn-block bg-gradient-primary  btn-sm"><i class="fas fa-edit"></i></a></td>
+                <td>{{$category_data['name']}}</td>
+                <td>{{$category_data['slug']}}</td>
+                <td>{{$category_data['description']}}</td>
+                <td><a href="{{route('category.edit',[$category_data->id])}}" class="btn btn-sm bg-gradient-primary "><i class="fas fa-edit"></i></a>
+                  <a href="/delete_category/{{$category_data['id']}}" class="btn btn-sm btn-danger btn-sm"><i class="fas fa-trash"></i></a></td>
               </tr>
+              @endforeach
+              @endif
               </tbody>
             </table>
           </div>
           <!-- /.card-body -->
         </div>
         <!-- /.card-body -->
-      </div>
+      
       <!-- /.card -->
     </div>
     <!-- /.col -->

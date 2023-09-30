@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,7 +13,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-       return view("admin.category.index");
+        $category_details = Category::orderby("created_at","DESC")->paginate(10);
+        return view("admin.category.index",compact("category_details"));
     }
 
     /**
@@ -23,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view("");
+        return view("admin.category.create");
     }
 
     /**
@@ -32,9 +33,15 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        $data =[
+            "name"=>$req->input("category_name"),
+            "slug"=>$req->input("slug"),
+            "description"=>$req->input("description")
+        ];
+        Category::create($data);
+        return redirect()->back();
     }
 
     /**
@@ -45,7 +52,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        //$data = Category
+
     }
 
     /**
@@ -56,7 +64,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $updatedata = Category::find($id);
+       return view('admin.category.edit',compact("updatedata"));
     }
 
     /**
@@ -66,9 +75,13 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $id)
     {
-        //
+        $category=  new category();
+       $category->name = $req->input("category_name");
+       $category->slug= $req->input("slug");
+       $category->description = $req->input("description");
+        $category->save();
     }
 
     /**
@@ -79,6 +92,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Category::find($id);
+        $res = $data->delete();
+        if($res){
+            return redirect()->back();
+        }
     }
 }
