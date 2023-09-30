@@ -17,7 +17,7 @@
                 <th>Name</th>
                 <th>Slug</th>
                 <th>Post Count</th>
-                <th style="width: 40px">Actions</th>
+                <th style="width: 40px">Actionss</th>
               </tr>
               </thead>
               <tbody>
