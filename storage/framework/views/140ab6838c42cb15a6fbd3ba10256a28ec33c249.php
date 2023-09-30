@@ -1,0 +1,1 @@
+<h3>This is welcome page <?php echo e($name); ?></h3><?php /**PATH D:\laravel-crud\curd-api\resources\views/welcome.blade.php ENDPATH**/ ?>
