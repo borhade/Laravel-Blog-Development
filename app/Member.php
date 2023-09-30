@@ -1,28 +1,15 @@
 <?php
 
 namespace App;
-
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Database\Eloquent\Model;
+
 class Member extends Model
 {
-    public $timestamps =false;
+  function getMember()
+  {
+    return $this->hasOne(post::class,"user_id");
+  } 
 
-    public function getNameAttribute($value){
-        return ucfirst($value);
-    }
-
-    public function getAddressAttribute($value){
-        return $value;
-    }
-
-    public function setNameAttribute($value){
-       return $this->attributes['name']= "Mr".$value;
-    }
-    public function getCompanyDetails(){
-
-        return $this->hasOne("App\company");
-    }
-
-   
-
+   // protected $fillable = ["name","email","address"];
 }

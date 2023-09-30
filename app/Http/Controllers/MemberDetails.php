@@ -1,18 +1,49 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use App\Lib\CustomClass;
 use App\Member;
 use Illuminate\Support\Facades\DB;
 class MemberDetails extends Controller
 {
+    public function index(){
+       $checkcustom = new CustomClass;
+       $res = $checkcustom->getName();
+        var_dump($res["name"]);
+        //$res = $checkcustom->someFunction();
+       // var_dump($checkcustom);
+      //$data=Member::all();
+      //return view("userlist",["members"=>$data]);
+    }
+
+
+    //Eager and Lazy loading learning
+    /* public function show(){
+        $data = Member::with("getMember")->get();
+        foreach($data as $key=>$value){
+            dump($value->id);
+            dump($value->getMember->title);
+       }
+    } */
+
     public function show(){
-      $data=Member::all();
-     return view("userlist",["members"=>$data]);
+        $data = Member::with("getMember")->get();
+        foreach($data as $key=>$value){
+            dump($value->id);
+            dump($value->getMember->title);
+       }
+       //return view('userlist',["members"=>$data]);
     }
 
     public function addUser(Request $req ){
+
+        $req->validate([
+            "name"=>"required|string",
+            "email"=>"required",
+            "address"=>"required",
+        ]);
+
         $member = new Member();
         $member->name = $req->input("name");
         $member->email = $req->input("email");

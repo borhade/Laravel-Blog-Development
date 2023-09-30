@@ -19,13 +19,12 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get("/create",function(){
-   return view("create");
+Route::get("/about",function(){
+    return view("about");
 });
 
 Route::get("/login",function(){
-    echo"hii";
-    //return view("login");
+    return view("login");
 });
 
 Route::post("/user_login","UserAuth@userLogin");
@@ -50,8 +49,7 @@ Route::post("/update","MemberDetails@update");
 Route::get("/getEmployee","employeedetails@getEmployeeDetails");
 Route::get("/title","MemberDetails@testHasOne");
 Route::get("/testroute/{key:name}","MemberDetails@testPathModeling");
-Route::get("/getDetails","UserController@show");
-Route::POST("/addDetails","UserController@createDetails");
-Route::get("/deleteCompanyDetails/{id}","UserController@removeCompanyDetails");
-Route::get("/editCompanyDetails/{id}","UserController@editCompanyDetails");
-Route::post("/updateCompanyDetails","UserController@updateCompanyDetails");
+Route::get("/check","DashboardController@test");
+Route::resource('category','CategoryController');
+Route::get('/delete_category/{id}','CategoryController@destroy');
+Route::get("/test_email", "EmailController@sendEmail");

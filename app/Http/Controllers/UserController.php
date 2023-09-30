@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Company;
 use Illuminate\Support\Facades\DB;
+use App\Services\AwesomeServiceInteface;
 class UserController extends Controller
 {
 
@@ -22,6 +23,15 @@ class UserController extends Controller
 
 
     public function createDetails(Request $req){  
+        
+            $rules=[
+                "company_name"=>"required",
+                "email"=>"required",
+                "address"=>"required",
+            ];
+
+            $req->validate($rules);
+        
         $data =[
             "company_name"=>$req->post("name"),
             "email"=>$req->post("email"),
@@ -58,6 +68,10 @@ class UserController extends Controller
             "message"=>"Company has been deleted Successfully !"
         ]);
 
+    }
+
+    public function testInteface(AwesomeServiceInteface $checkinterface){
+        $checkinterface->doSomething();
     }
 
 }

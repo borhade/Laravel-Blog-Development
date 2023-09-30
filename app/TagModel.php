@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class TagModel extends Model
 {
-    public  $timestamps=false;
+    //
 }
