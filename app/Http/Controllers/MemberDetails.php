@@ -28,12 +28,8 @@ class MemberDetails extends Controller
     } */
 
     public function show(){
-        $data = Member::with("getMember")->get();
-        foreach($data as $key=>$value){
-            dump($value->id);
-            dump($value->getMember->title);
-       }
-       //return view('userlist',["members"=>$data]);
+        $members = Member::with("getMember")->get();
+       return view('userlist',compact("members"));
     }
 
     public function addUser(Request $req ){

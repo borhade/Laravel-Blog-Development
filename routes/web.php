@@ -43,7 +43,6 @@ Route::get("/addview",function(){
 
 Route::post("/adduser","MemberDetails@addUser");
 Route::get("/delete/{id}","MemberDetails@deleteUser");
-
 Route::get("/edit/{id}","MemberDetails@showData");
 Route::post("/update","MemberDetails@update");
 Route::get("/getEmployee","employeedetails@getEmployeeDetails");
