@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Tag;
 
 class TagController extends Controller
 {
@@ -13,7 +14,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        return view('admin.tag.index');
+        $tagsDetails = Tag::orderby('id','desc')->get();
+        return view('admin.tag.index',["tagsDetails"=>$tagsDetails]);
     }
 
     /**

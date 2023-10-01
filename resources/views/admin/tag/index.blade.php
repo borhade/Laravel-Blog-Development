@@ -10,19 +10,23 @@
         <table id="example1" class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th style="width: 10px">row no</th>
-              <th>Name</th>
+              <th style="width: 10px">Name</th>
               <th>Slug</th>
+              <th>Description</th>
               <th style="width: 40px">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Name</td>
-              <td>Slug</td>
-              <td>Action</td>
-            </tr>
+           
+              @foreach($tagsDetails as $key=>$value)
+                <tr>
+                  <td>{{$value['name']}}</td>
+                  <td>{{$value['slug']}}</td>
+                  <td>{{$value['description']}}</td>
+                  <td><a href="" class="btn btn-sm bg-gradient-primary "><i class="fas fa-edit"></i></a>
+                    <a href="" class="btn btn-sm btn-danger btn-sm"><i class="fas fa-trash"></i></a></td>
+                </tr>
+             @endforeach
           </tbody>
         </table>
       </div>

@@ -7,7 +7,7 @@
       <!-- general form elements -->
       <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title"> Create Category</h3>
+          <h3 class="card-title">Create Category</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
@@ -26,10 +26,8 @@
               <label for="description">Description</label>
               <input type="text" class="form-control" name="description">
             </div>
-          
           </div>
           <!-- /.card-body -->
-
           <div class="card-footer">
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
