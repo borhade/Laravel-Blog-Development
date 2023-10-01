@@ -28,8 +28,10 @@ class MemberDetails extends Controller
     } */
 
     public function show(){
-        $members = Member::with("getMember")->get();
-       return view('userlist',compact("members"));
+        $member = Member::take(5)->get();
+        dd($member);
+        //$members = Member::with("getMember")->get();
+       //return view('userlist',compact("members"));
     }
 
     public function addUser(Request $req ){

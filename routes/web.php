@@ -52,3 +52,5 @@ Route::get("/check","DashboardController@test");
 Route::resource('category','CategoryController');
 Route::get('/delete_category/{id}','CategoryController@destroy');
 Route::get("/test_email", "EmailController@sendEmail");
+Route::resource("/tag","TagController");
+Route::resource("/post","PostController");

@@ -13,8 +13,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category_details = Category::orderby("created_at","DESC")->paginate(10);
-        return view("admin.category.index",compact("category_details"));
+        $category_details=Category::orderby('id','asc')->limit(1)->get(); //get first record by limit
+        dump($category_details);
+        //$category_details = Category::orderby("created_at","DESC")->paginate(10);
+        //return view("admin.category.index",compact("category_details"));
     }
 
     /**
