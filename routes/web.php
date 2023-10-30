@@ -37,6 +37,7 @@ Route::get("/logout",function(){
 });
 
 Route::get("/list","MemberDetails@show");
+
 Route::get("/addview",function(){
     return view("add");
 });
@@ -52,5 +53,7 @@ Route::get("/check","DashboardController@test");
 Route::resource('category','CategoryController');
 Route::get('/delete_category/{id}','CategoryController@destroy');
 Route::get("/test_email", "EmailController@sendEmail");
+//tag part
 Route::resource("/tag","TagController");
+Route::get("/delete_tag/{id}","TagController@destroy");
 Route::resource("/post","PostController");

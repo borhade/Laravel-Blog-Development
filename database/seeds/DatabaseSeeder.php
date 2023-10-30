@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
             CompaniesSeeder::class
          ]); */
 
-         $this->call([
-            CommonSeeder::class
-         ]);
+       $this->call([
+         LanguagesSeeder::class
+       ]);
     }
 }

@@ -5,8 +5,15 @@ use Illuminate\Http\Request;
 use App\Lib\CustomClass;
 use App\Member;
 use Illuminate\Support\Facades\DB;
+use App\Services\Geolocation\Geolocation;
 class MemberDetails extends Controller
 {
+     public $geolocation;
+    public function __construct(Geolocation $geolocation)
+    {
+        $this->geolocation=$geolocation;
+    }
+    
     public function index(){
        $checkcustom = new CustomClass;
        $res = $checkcustom->getName();
@@ -28,8 +35,13 @@ class MemberDetails extends Controller
     } */
 
     public function show(){
-        $member = Member::take(5)->get();
-        dd($member);
+        $members = Member::orderBy("id","Desc")
+                            //->take(2)
+                            ->get()->toArray();
+
+        $res = $this->geolocation->search('abs');
+        
+        var_dump($res);
         //$members = Member::with("getMember")->get();
        //return view('userlist',compact("members"));
     }
@@ -41,12 +53,12 @@ class MemberDetails extends Controller
             "email"=>"required",
             "address"=>"required",
         ]);
-
-        $member = new Member();
-        $member->name = $req->input("name");
-        $member->email = $req->input("email");
-        $member->address = $req->input("address");
-        $member->save();
+        $data =[
+            "name"=>"shivani",//$req->input("name"),
+            "email"=>"test@gmail.com",//$req->input("email"),
+            "address"=>"khanda colony", //$req->input("address")
+        ];
+        Member::create($data);
     }
 
     public function deleteUser($id){

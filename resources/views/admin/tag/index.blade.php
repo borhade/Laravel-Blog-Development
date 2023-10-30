@@ -4,7 +4,8 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">DataTable with default features</h3>
+        <h3 class="card-title"><a href="{{route('tag.create')}}" class="btn btn-sm bg-gradient-primary ">Add</a></h3>
+      
       </div>
       <div class="card-body">
         <table id="example1" class="table table-bordered table-striped">
@@ -23,8 +24,8 @@
                   <td>{{$value['name']}}</td>
                   <td>{{$value['slug']}}</td>
                   <td>{{$value['description']}}</td>
-                  <td><a href="" class="btn btn-sm bg-gradient-primary "><i class="fas fa-edit"></i></a>
-                    <a href="" class="btn btn-sm btn-danger btn-sm"><i class="fas fa-trash"></i></a></td>
+                  <td><a href="{{route('tag.edit',[$value['id']])}}" class="btn btn-sm bg-gradient-primary"><i class="fas fa-edit"></i></a>
+                    <a href="delete_tag/{{$value['id']}}" class="btn btn-sm btn-danger btn-sm"><i class="fas fa-trash"></i></a></td>
                 </tr>
              @endforeach
           </tbody>

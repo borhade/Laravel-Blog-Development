@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tag;
-
+//use App\Http\Requests\ValidationRequest;
+use  Illuminate\Support\Facades\Validator;;
 class TagController extends Controller
 {
     /**
@@ -25,7 +26,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.tag.create');
     }
 
     /**
@@ -36,7 +37,23 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        var_dump($request->input("tag_slug"));
+       
+        //$validatedData  = $request->validated();
+      /*  $validatedData= $request->validate([
+            "tag_name"=>"required",
+            "tag_slug"=>"required,",
+            "tag_description"=>"required",
+        ]); */
+
+        $data =[
+            'name'=>$request->input('tag_name'),
+            'slug'=>$request->input('tag_slug'),
+            'description'=>$request->input('tag_description'),
+        ];
+        //var_dump($validatedData);
+        Tag::create($data); 
     }
 
     /**
@@ -58,7 +75,9 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        //
+        $updateDetails = tag::find($id);
+        //var_dump($updateDetails);
+        return view('admin.tag.edit',compact("updateDetails"));
     }
 
     /**
@@ -70,7 +89,7 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        echo"update";
     }
 
     /**
@@ -81,6 +100,8 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = tag::find($id);
+        $result= $data->delete();
+        var_dump($result);
     }
 }

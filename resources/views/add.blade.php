@@ -9,6 +9,5 @@ E-mail:<input type="text" name="email"><br>
 Address:<input type="text" name="address"><br>
 <button type="submit">Submit</button>
 </form>
-
 </body>
 </html>

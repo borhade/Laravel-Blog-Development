@@ -1,0 +1,12 @@
+/*-------------------------facades----------------------------------*/
+
+1)Facdes bascially use for statically call  service provider method 
+
+For example geolocation is my service and that suppose contain one service 
+like serach method
+ gelocationfacdes::search()
+
+ Auth::login()
+ Db::select()
+ Route::get()
+
