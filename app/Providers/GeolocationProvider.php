@@ -18,7 +18,7 @@ class GeolocationProvider extends ServiceProvider
         $this->app->bind(Geolocation::class,function($app){
             $map = new Map();
             $satellite = new Satellite();
-            return new Geolocation( $map, $satellite);
+            return new Geolocation($map, $satellite);
         });
     }
 

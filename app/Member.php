@@ -15,11 +15,11 @@ class Member extends Model
   } 
 
   public function getNameAttribute($value){
-    return ucwords($value);
+    return ucfirst($value);
   }
 
   public function setNameAttribute($value){
-    $this->attributes["name"]= strtoupper($value);
+    $this->attributes["name"]= strtolower($value);
   }
 
    protected $fillable = ["name","email","address"];

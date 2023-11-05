@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Lib\CustomClass;
 use App\Member;
+use App\post;
 use Illuminate\Support\Facades\DB;
 use App\Services\Geolocation\Geolocation;
+use App\Repositories\MemberRepository;
 class MemberDetails extends Controller
 {
-     public $geolocation;
+    public $geolocation;
     public function __construct(Geolocation $geolocation)
     {
         $this->geolocation=$geolocation;
@@ -35,36 +37,29 @@ class MemberDetails extends Controller
     } */
 
     public function show(){
-        $members = Member::orderBy("id","Desc")
-                            //->take(2)
+
+         $members = Member::orderBy("id","Desc")
                             ->get()->toArray();
 
-        $res = $this->geolocation->search('abs');
+       // $res = $this->geolocation->search('abs');
         
-        var_dump($res);
         //$members = Member::with("getMember")->get();
-       //return view('userlist',compact("members"));
+       return view('userlist',compact("members"));
     }
 
-    public function addUser(Request $req ){
-
-        $req->validate([
+    public function addUser(Request $req ,MemberRepository $memberRepository){
+        $data = $req->only(["name","email","address"]);
+        /* $req->validate([
             "name"=>"required|string",
             "email"=>"required",
             "address"=>"required",
         ]);
-        $data =[
-            "name"=>"shivani",//$req->input("name"),
-            "email"=>"test@gmail.com",//$req->input("email"),
-            "address"=>"khanda colony", //$req->input("address")
-        ];
-        Member::create($data);
+         */
+        $memberRepository->create($data);
     }
 
-    public function deleteUser($id){
-        //$member = new Member();
-        $res= Member::find($id);
-        $res->delete();
+    public function deleteUser($id,MemberRepository $memberRepository){
+        $memberRepository->delete($id);
     }
 
     public function showData($id){
@@ -72,12 +67,9 @@ class MemberDetails extends Controller
         return view('edit',["memberResult"=>$data]);
 
     }
-    public function update(Request $req){
-        $member = Member::find($req->id);
-        $member->name = $req->input("name");
-        $member->email = $req->input("email");
-        $member->address = $req->input("address");
-        $member->save();
+    public function update(Request $req, MemberRepository $memberRepository){
+        $data = $req->only(['id','name','email','address']);
+        $memberRepository->update($data);
     }
 
     //check accessor and mutator
@@ -119,12 +111,12 @@ class MemberDetails extends Controller
     }
 
     public function addMember(Request $req){
-        $member= new Member();
+        $member = new Member();
         $member->name = $req->name;
         $member->email =  $req->email;
         $member->address = $req->address;
         $result = $member->save();
-        return ["result"=>$result];
+        return ["result"=>$result]; 
 
     }
 

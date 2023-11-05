@@ -4,9 +4,308 @@
 
 For example geolocation is my service and that suppose contain one service 
 like serach method
- gelocationfacdes::search()
+ gelocationfacades::search()
+
 
  Auth::login()
  Db::select()
  Route::get()
+ view::make()
+
+ --------------------------Session in laravel----
+
+ Request->session->put()
+
+ --------------------------Soft deletes----
+Schema::table("posts",function(Blueprint $table){
+    $table->softDeletes();
+});
+
+Schema::table("posts",function(Blueprint $table){
+  $table->dropSoftDeletes();
+});
+
+Get,restore and perment delete data
+posts::onlyTrashed()->orderBy("id","desc")->take(2)
+
+Restore:
+$res= posts::withTrashed()->findOrFail($id);
+$res->restore();
+PermentDelete:
+$res = posts::withTrashed()->findOrFail($id);
+$res->forceDelete();
+-------------------------------------Json Response--------------------
+ return new JsonResponse([
+    "data"=>$posts,
+ ],400);
+
+------------------------Getter and setter method-----------
+
+getNameAttribute(){
+
+$this->attributes['name']= 
+}
+
+
+
+
+ --------------------sleep and __walkup method in php----
+
+ <?php
+	class test{
+	  public $b;
+	  public function __construct(){
+	    $this->firstname = "vishal";
+	    $this->lastname = "borhade";
+	  }
+	  
+	  public function __sleep(){
+	    return array("firstname","lastname");
+	  }
+	  
+	  public function __wakeup(){
+	    echo "walk";
+	  }
+	}
+	
+	$obj = new test();
+	var_dump($obj);
+	$res = serialize($obj);
+	//unserialize($res);
+	var_dump($res);	
+?>
+------------------------------------Soft Delete----------------
+php artisan make::migration alter_posts_table
+
+up(){
+	$table->softDelete();
+}
+
+down(){
+	$table->dropSoftDelete();
+}
+
+php artisna migrate: --path = database/migration/2023_10_30_144541_alter_posts_table.php
+
+Inside model use softdelte trait;
+use softDelete;
+
+Inside controller
+
+1)Fetch soft delete database
+ post::onlyTrashed()
+		->orderBy('id','asc')
+		->take(2)
+		->get();
+
+Restore
+$data=post::withTrashed()->findOrFaile($id);\
+data->restore();
+------------------------------------------
+Delte Perment
+$data=post::withTrashed()->findOrFaile($id);\
+data->restore();
+-------------------------------------
+
+Hookes in Cogniter:=
+
+1)Intialize hookes in = application/config/config.php
+$config['enable_hook']="true";
+
+2) application/config/hook.php = write below code 
+$hookes["pre_controller"]= [
+   "class"=>"mycustomhook"
+  "function_name"=>,
+  "file_name"=>,
+  "params"=>[1,2,3],
+]
+
+3)Last step is  = wrtie your hook code in  application/hook/mycustomhook.php
+
+1)post_controller =
+a)In this example, the performAction method logs information about the request after the controller 
+has processed it. You can customize the logic in the performAction method to suit your application's needs.
+
+b) By following these steps, you can set up a post-controller hook in 
+CodeIgniter to perform actions after your controller has handled the incoming request.
+
+2)post_controller_constructor =
+a)This is a convenient way to avoid duplicating code in various controller methods to 
+  fetch user data from a database or another source.
+ you can set up a post_controller_constructor hook in CodeIgniter to perform actions after the 
+ controller constructor but before the controller method handles the incoming request.
+
+<?php
+class MyHook
+{
+    public function initialize()
+    {
+        // Load the user's data and make it available to all controller methods
+        $this->loadUserData();
+    }
+
+    private function loadUserData()
+    {
+        // Implement your logic to load user data here
+        // For example, you can fetch user information from a database
+        // and store it in a property or variable for use in controller methods
+    }
+}
+
+3)pre_system hook =
+By following these steps, you can set up a pre_system hook in CodeIgniter to 
+perform actions before the core system and libraries are fully loaded
+
+
+<?php
+class MyHook
+{
+    public function initializeEnvironment()
+    {
+        // Your pre-system hook logic goes here
+        // For example, you can set configuration values or perform environment setup.
+        $this->setEnvironmentVariables();
+    }
+
+    private function setEnvironmentVariables()
+    {
+        // Example: Set environment-specific configuration values
+        if (ENVIRONMENT === 'development') {
+            // Set debug mode or custom configuration for development environment
+            config_item('base_url', 'http://localhost/your_app');
+        } elseif (ENVIRONMENT === 'production') {
+            // Set production-specific configuration
+            config_item('base_url', 'https://yourdomain.com');
+        }
+    }
+}
+
+4) post_system hook =
+a)you can set up a post_system hook in CodeIgniter to perform actions 
+after the system has completed its processing.
+example = log information of  find total execution time of application 
+
+5)Display_override hook =
+a) you can set up a Display_override hook in 
+CodeIgniter to modify the output of your views before it's sent to the browser.
+example  = suppose i want to custom footer before send to browser then i will use this hooke.
+
+
+-------------------------------------------
+How to extend native class in codeniter ?
+
+Inside Application/libraries
+
+Class My_Form_validation extends CI_Form_Validation{
+
+	public function __constrcut(){
+
+	}
+}
+
+$this->load->library("My_Form_validation");
+
+--------------------------------------------------
+1) How to define variable and their in value in codegniter config and how access in controller
+
+1)first define variable in config  file = application/config/my_config.php
+
+$config["my_variable"] ="This is my configuration value";
+
+Inside controller
+
+$this->config->load('myconfig');
+
+$this->config->item("my_variable");
+
+$config['sess_driver'] = 'files'; // You can use different drivers like 'database', 'memcached', etc.
+$config['sess_cookie_name'] = 'ci_session';
+$config['sess_expiration'] = 7200; // Se
+
+to load this config item use below code 
+
+$this->config->item(sess_cookie_name);
+
+----------------------------How to use session in CI--------
+$this->load->library('session'); 
+$this->session->start() ;// if you want to load manually
+
+$this->session->destroy();
+
+$this->session->set_userdata('key',value);
+$this->session->userdata('key');
+$this->session->unset_userdata('key');
+
+-----oops ------------
+
+interface DatabaseConnection {
+    public function connect();
+    public function query($sql);
+    public function close();
+}
+--------------------------Rest ApI---
+1)cashable
+2)code on demand
+3)uniform interface
+4)stateless (both are independetn and both dont known each other
+)
+ 5)client-server architecture
+----------------------------Laravel---------------
+$req->collect();
+$req->all();
+$req->input();
+$req->only([])
+$req->except([])
+
+ https://www.youtube.com/watch?v=UNtSB-dprIM
+
+ ---------------------------------------------------
+
+
+ I decided to leave my previous role because I felt that it was
+ the right time for me to seek new challenges and opportunities 
+ for professional growth. I had a great experience at my previous company and 
+ am proud of the contributions I made there. However, I reached a point where 
+ I believed that taking on a new role would help me further develop my 
+skills and contribute to a company in a different capacity.
+
+
+hy do you want to work for our company? how to answer to this question
+1)I am fit for this role
+2)i geniue belive i get bettter ooprtunity in this company and i am very eager to use my skilles and ideas in it`search
+futtre project
+3_as i see ftcash is good or ideal place fot my professional growth
+and i also excited for to work compan'ys talented people.
+
+
+what is you current resposibilty in current company ?
+
+1)My primary responsibility is to develop and maintain web applications using PHP
+
+Example:"My key responsibilities include:
+    Developing and maintaining PHP-based web applications.
+    Collaborating with the design and product teams to create user-friendly interfaces.
+    Optimizing and enhancing the performance of existing applications.
+    Writing clean, well-documented, and efficient code using PHP and related technologies such as [mention any relevant frameworks or libraries].
+    Troubleshooting and debugging issues in both front-end and back-end components.
+    Integrating third-party APIs and services into our applications."
+
+------------------------------------------------------
+for production issue
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
 
