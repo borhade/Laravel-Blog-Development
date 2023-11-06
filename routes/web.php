@@ -36,15 +36,34 @@ Route::get("/logout",function(){
     }
 });
 
-Route::get("/list","MemberDetails@show");
+Route::get("/list","MemberDetails@show")->name("list.getAllDetails");
 
-Route::get("/addview",function(){
-    return view("add");
+route::prefix("/page")->group(function(){
+    Route::get("/addview",function(){
+        return view("add");                    
+    })->name("store");
+
+    Route::get("/edit_view",function(){
+        echo"edit_view..";
+        //return view("add");                    
+    })->name("edit_view");
+    
+    
+    /*Route::get("/page/delete_view",function(){
+        echo"delete..";
+        //return view("add");                    
+    });*/
 });
+
+Route::fallback(function(){
+  echo"<h2>Page not found!.</h2>";
+});
+
 
 Route::post("/adduser","MemberDetails@addUser");
 Route::get("/delete/{id}","MemberDetails@deleteUser");
 Route::get("/edit/{id}","MemberDetails@showData");
+
 Route::post("/update","MemberDetails@update");
 Route::get("/getEmployee","employeedetails@getEmployeeDetails");
 Route::get("/title","MemberDetails@testHasOne");

@@ -9,7 +9,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">        
+<div class="container">    
+  <a href="{{route("store")}}">post</a>  
+  {{-- <a href="page/edit_view">post_2</a> --}}
+  <a href="{{route("edit_view")}}">post_2</a>       
   <table class="table">
     <thead>
       <tr>

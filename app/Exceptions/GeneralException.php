@@ -12,8 +12,9 @@ class GeneralException extends Exception
      } 
 
      public function render($request){
-            return new JsonResponse([
+        
+             return new JsonResponse([
                 "error"=>$this->getMessage(),
-            ],200);
+            ],$this->code);
      }
 }

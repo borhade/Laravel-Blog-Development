@@ -12,6 +12,7 @@
 </head>
 <body>
 <div class="container">
+  
   <form action="/adduser" method="post">
      @csrf
     <div class="form-group">

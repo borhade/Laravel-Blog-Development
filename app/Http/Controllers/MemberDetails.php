@@ -45,7 +45,7 @@ class MemberDetails extends Controller
        return view("userlist",compact("members",$members));
     }
 
-    public function addUser(Request $req ,MemberRepository $memberRepository){
+    public function store(Request $req ,MemberRepository $memberRepository){
         $data = $req->only(["name","email","address"]);
         /* $req->validate([
             "name"=>"required|string",

@@ -16,8 +16,8 @@ Class MemberRepository extends BaseRepository{
             "email"=>$email,
             "address"=>$address
          ]);
-      $lastId=false;
-      throw_if(!$lastId,GeneralException::class,"failed to create");
+      $lastId= $data->id;
+      throw_if(!$lastId,GeneralException::class,"failed to create",400);
    }
 
    public function update(array $attributes){
@@ -30,6 +30,8 @@ Class MemberRepository extends BaseRepository{
          $wasUpdated = $memberDetails->update();
          if($wasUpdated){
             return redirect("/list")->with(["success"=>"Record has been updated"]);
+         }else{
+            throw_if(!$wasUpdated,GeneralException::class,"Failed to Update Member",400);
          }
       }
      
@@ -42,6 +44,8 @@ Class MemberRepository extends BaseRepository{
       $wasDeleted = $details->delete();
       if($wasDeleted){
          echo"delete";
+      }else{
+        throw_if(!$wasDeleted,GeneralException::class,"Failed to delete Record",400);
       }
    }
 
