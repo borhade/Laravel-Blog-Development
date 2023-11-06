@@ -8,6 +8,7 @@ use App\post;
 use Illuminate\Support\Facades\DB;
 use App\Services\Geolocation\Geolocation;
 use App\Repositories\MemberRepository;
+use App\Exceptions\GeneralException;
 class MemberDetails extends Controller
 {
     public $geolocation;
@@ -38,13 +39,10 @@ class MemberDetails extends Controller
 
     public function show(){
 
-         $members = Member::orderBy("id","Desc")
-                            ->get()->toArray();
-
-       // $res = $this->geolocation->search('abs');
-        
+      $members = Member::orderBy("id","desc")->get();
+       //$res = $this->geolocation->search('abs');
         //$members = Member::with("getMember")->get();
-       return view('userlist',compact("members"));
+       return view("userlist",compact("members",$members));
     }
 
     public function addUser(Request $req ,MemberRepository $memberRepository){

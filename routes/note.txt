@@ -257,6 +257,33 @@ $req->input();
 $req->only([])
 $req->except([])
 
+------Laravel collection method----------
+1)count 
+2)countBy
+3)chunk
+4)toArray()
+5)filter
+ $datas = $members->filter(function($item){
+                if($item["id"] == 6){
+                        return $item;
+                }
+        });
+6)each
+7)all()
+8)contains
+9)Max
+10)avg()
+11)pluck
+-------------------------Exception-------
+Report and Render method
+1) Report method basically report exception admin or excpetion log system
+Render:
+2) Basically Render method send http response to view with exception and exception code
+  return new jsonResponse([
+    "error"=>this->getMessage();
+  ],this->code);
+
+
  https://www.youtube.com/watch?v=UNtSB-dprIM
 
  ---------------------------------------------------

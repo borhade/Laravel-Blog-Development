@@ -2,6 +2,7 @@
 namespace App\Repositories;
 use App\Repositories\BaseRepository;
 use App\Member;
+use App\Exceptions\GeneralException;
 
 Class MemberRepository extends BaseRepository{
 
@@ -15,8 +16,8 @@ Class MemberRepository extends BaseRepository{
             "email"=>$email,
             "address"=>$address
          ]);
-      $lastId= $data->id;
-      var_dump($lastId);
+      $lastId=false;
+      throw_if(!$lastId,GeneralException::class,"failed to create");
    }
 
    public function update(array $attributes){
