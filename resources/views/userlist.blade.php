@@ -9,10 +9,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">    
-  <a href="{{route("store")}}">post</a>  
-  {{-- <a href="page/edit_view">post_2</a> --}}
-  <a href="{{route("edit_view")}}">post_2</a>       
+<div class="container">
+  <br/>   
+  <a href="{{route("create")}}"  class="btn btn-info" role="button">Add Details</a>  
+  {{-- <a href="{{route("edit_view")}}">post_2</a>--}} 
   <table class="table">
     <thead>
       <tr>
@@ -20,7 +20,6 @@
         <th>email</th>
         <th>Address</th>
         <th>Action</th>
-  
       </tr>
     </thead>
     <tbody>
@@ -35,6 +34,5 @@
     </tbody>
   </table>
 </div>
-
 </body>
 </html>

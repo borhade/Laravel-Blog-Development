@@ -8,7 +8,8 @@ use App\post;
 use Illuminate\Support\Facades\DB;
 use App\Services\Geolocation\Geolocation;
 use App\Repositories\MemberRepository;
-use App\Exceptions\GeneralException;
+//use App\Exceptions\GeneralException;
+use App\Http\Requests\ValidationRequest;
 class MemberDetails extends Controller
 {
     public $geolocation;
@@ -38,34 +39,32 @@ class MemberDetails extends Controller
     } */
 
     public function show(){
-
       $members = Member::orderBy("id","desc")->get();
        //$res = $this->geolocation->search('abs');
-        //$members = Member::with("getMember")->get();
+      //$members = Member::with("getMember")->get();
        return view("userlist",compact("members",$members));
     }
 
-    public function store(Request $req ,MemberRepository $memberRepository){
+    public function store(ValidationRequest $req ,MemberRepository $memberRepository){
         $data = $req->only(["name","email","address"]);
-        /* $req->validate([
+        $req->validate([
             "name"=>"required|string",
             "email"=>"required",
             "address"=>"required",
         ]);
-         */
+        
         $memberRepository->create($data);
     }
 
     public function deleteUser($id,MemberRepository $memberRepository){
         $memberRepository->delete($id);
     }
-
+    
     public function showData($id){
         $data = Member::find($id);
         return view('edit',["memberResult"=>$data]);
-
     }
-    public function update(Request $req, MemberRepository $memberRepository){
+    public function update(ValidationRequest $req, MemberRepository $memberRepository){
         $data = $req->only(['id','name','email','address']);
         $memberRepository->update($data);
     }

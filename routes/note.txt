@@ -237,12 +237,62 @@ $this->session->userdata('key');
 $this->session->unset_userdata('key');
 
 -----oops ------------
+<?php
 
 interface DatabaseConnection {
     public function connect();
-    public function query($sql);
-    public function close();
+    public function query();
+    //public function close();
 }
+
+Class MySqlConnection implements DatabaseConnection{
+  public function connect(){
+   echo "Databse MySqlConnection Successfully !"; 
+  }
+  
+  public function query(){
+    echo "please mysql execute Query..";
+  } 
+  
+} 
+
+Class SqlLiteConnection implements DatabaseConnection{
+  public function connect(){
+    echo "Databse SqlLiteConnection Successfully !";
+  }
+  
+  public function query(){
+    echo "please SqlLiteConnection execute Query..";
+  }
+  
+}
+
+
+Class User{
+  private $db;
+  public function __construct($db){
+    echo"--db--";
+    var_dump($db);
+    $this->db = $db;
+  }
+  
+  public function getConnection(){
+    $this->db->connect();
+  }
+  
+  public function executeQuery(){
+    $this->db->query();
+  }
+  
+  
+  
+}
+
+$mysqlConnection = new MySqlConnection();
+$sqlliteConnection = new SqlLiteConnection();
+$user = new User($sqlliteConnection);
+$user->getConnection();
+?>
 --------------------------Rest ApI---
 1)cashable
 2)code on demand
@@ -319,6 +369,133 @@ Example:"My key responsibilities include:
 
 ------------------------------------------------------
 for production issue
+
+1) php artisan make: test MemberDetailTest
+2) php artisan test --filter:MemberDetailTest
+or | vendor/bin/phpunit --filter MemberDetailsTest
+
+---------------------
+
+
+$str = "VISHAL BORAHDE";
+
+echo strlen($str);
+
+
+$i=0;
+
+$j = strlen($str)-1;
+
+$mid = floor(($i+$j)/2);
+
+echo "j...".$mid;
+
+while($i<= $mid){
+    
+      var_dump($str[$i]);
+      var_dump($str[$j]);
+      $temp = $str[$i];
+      $str[$i] = $str[$j];
+      $str[$j]= $temp;
+      $i++;
+      $j--;
+
+}
+var_dump($str);
+-------------------------------------
+
+Factory Design Patteren :-
+
+Imagine you have a "factory" that produces different types of products. For example, let's say it's a toy factory, 
+and it can create different types of toys like cars, dolls, or robots.
+Now, instead of making each toy directly by hand, the factory has a set of instructions for making each type of toy. These instructions are like templates or blueprints. When you want a specific toy, you tell the factory what kind of toy you want, and it follows the right set of instructions to make that toy for you.
+In software, the Factory Design Pattern works in a similar way. You have a "factory" class that knows how to create different types of objects or instances of classes. When you need an object of a particular type, you ask the factory to create it for you. The factory uses the appropriate instructions (or code) to create the object you requested.
+The benefits of using the Factory Design Pattern are that it helps you create objects more easily, keeps your code organized, and allows you to switch between different types of objects without changing a lot of code. 
+example:
+
+<?php 
+
+interface Shape{
+  public function draw();
+}
+
+Class Circle implements Shape{
+    public function draw(){
+     echo "draw circle..";    
+    }
+}
+
+Class Rectangle implements Shape{
+  public function draw(){
+     echo"Draw rectangle...";    
+  }
+}
+
+
+Class Shapefactory {
+  public function createShape($shape){
+      if($shape=="circle"){
+         return new Circle();
+      }else if($shape=="rectangle"){
+        return new Rectangle(); 
+      }
+  }
+}
+
+$factory = new Shapefactory();
+$res = $factory->createShape("rectangle");
+
+var_dump($res);
+?>
+---------------------
+
+
+Here's a simple explanation:
+
+Imagine you're building cars, and you need various parts like engines and tires. You have different car models, such as luxury cars and economy cars, each requiring specific parts. The Abstract Factory helps you create the right parts for each car model without knowing the exact details of how those parts are made.
+
+In essence, it's a way to ensure that the parts of your cars are compatible with each other, and you can switch between different "factories" to produce different types of cars while maintaining consistency in the parts used.
+
+
+
+
+
+?php
+	interface factory{
+	  public function createEngine();
+	  public function creteTire();
+	}
+	
+	Class LuxuryFactory implements factory{
+	  
+	}
+	
+	Class EconomyFactory implements factory{
+	  
+	}
+	
+  ---------------------------------
+  <?php
+  $data = [2,3,3,2,5,6,10,10];
+  $duplicate=[];
+  for($i=0;$i<count($data);$i++){
+       $temp = $data[$i];
+       $k=0;
+      for($j=0;$j<count($data);$j++){
+          if($temp==$data[$j]){
+             $duplicate[$temp] = $k++;
+          }
+      }
+  }
+  
+  print_r($duplicate);
+  
+  ?>
+
+
+
+
+
 
 
 

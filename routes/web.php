@@ -38,21 +38,27 @@ Route::get("/logout",function(){
 
 Route::get("/list","MemberDetails@show")->name("list.getAllDetails");
 
-route::prefix("/page")->group(function(){
-    Route::get("/addview",function(){
-        return view("add");                    
-    })->name("store");
-
+Route::prefix("/page")->group(function(){
     Route::get("/edit_view",function(){
         echo"edit_view..";
         //return view("add");                    
     })->name("edit_view");
     
+    /*
+     Route::get("/add_view",function(){
+        return view("add");                    
+    })->name("create");
     
-    /*Route::get("/page/delete_view",function(){
+    Route::get("/page/delete_view",function(){
         echo"delete..";
         //return view("add");                    
     });*/
+});
+
+Route::prefix("/page")->group(function(){
+    Route::get("/createView",function(){
+        return view("add");
+    })->name("create");
 });
 
 Route::fallback(function(){
@@ -60,7 +66,11 @@ Route::fallback(function(){
 });
 
 
-Route::post("/adduser","MemberDetails@addUser");
+Route::get("/addview",function(){
+    return view("add");                    
+});
+
+Route::post("/adduser","MemberDetails@store");
 Route::get("/delete/{id}","MemberDetails@deleteUser");
 Route::get("/edit/{id}","MemberDetails@showData");
 

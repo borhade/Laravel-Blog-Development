@@ -5,7 +5,7 @@ use App\Member;
 use App\Exceptions\GeneralException;
 
 Class MemberRepository extends BaseRepository{
-
+   
    public function create(array $attributes){
         $name = data_get($attributes,'name',null);  
         $email = data_get($attributes,'email',null);
@@ -18,6 +18,7 @@ Class MemberRepository extends BaseRepository{
          ]);
       $lastId= $data->id;
       throw_if(!$lastId,GeneralException::class,"failed to create",400);
+     //return redirect()->route("list.getAllDetails");
    }
 
    public function update(array $attributes){

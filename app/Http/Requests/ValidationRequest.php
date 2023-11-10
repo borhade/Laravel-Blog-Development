@@ -23,10 +23,11 @@ class ValidationRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+       
+         return [
             'name'=>'required',
-            //'slug'=>'required',
-            //'comment'=>'required',
+            'email'=>'required|email',
+            'address'=>'required',
         ];
     }
 }

@@ -12,25 +12,38 @@
 </head>
 <body>
 <div class="container">
-  
   <form action="/adduser" method="post">
      @csrf
+    
     <div class="form-group">
-      <input type="hidden" class="form-control"  name ="id" value="">
+      <input type="hidden" class="form-control"  name ="id">
     </div>
     <div class="form-group">
       <label for="email">Name:</label>
-      <input type="text" class="form-control" id="name" name="name" value="">
+      <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}">
+        @error("name")
+          <span class="text-danger">{{$message}}</span>
+        @enderror
     </div>
     <div class="form-group">
         <label for="email">Email:</label>
-        <input type="text" class="form-control" id="email" name="email" value="">
+        <input type="text" class="form-control" id="email" name="email" value="{{old('email')}}">
+        <span class="text-danger">
+          @error('email')
+            {{$message}}
+          @enderror
+        </span>
       </div>
     <div class="form-group">
     <label for="address">Address:</label>
-    <input type="text" class="form-control" id="address" name="address" value="">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <input type="text" class="form-control" id="address" name="address" value="{{old('address')}}">
+      <span class="text-danger">
+        @error("address")
+          {{$message}}
+        @enderror
+      </span>
+  </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
 </body>

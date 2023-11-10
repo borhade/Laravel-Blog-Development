@@ -17,17 +17,26 @@
     </div>
     <div class="form-group">
       <label for="email">Name:</label>
-      <input type="text" class="form-control" id="name" name="name" value={{$memberResult['name']}}>
+      <input type="text" class="form-control" id="name" name="name" value={{$memberResult['name'] ?? $memberResult['name']}}>
+      @error("name")
+      <span class="text-danger">{{$message}}</span>
+      @enderror
     </div>
     <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="text" class="form-control" id="email" name="email" value={{$memberResult['email']}}>
-      </div>
+      <label for="email">Email:</label>
+      <input type="text" class="form-control" id="email" name="email" value={{$memberResult['email'] ?? $memberResult['email']}}>
+      @error("email")
+        <span class="text-danger">{{$message}}</span>
+      @enderror
+    </div>
     <div class="form-group">
     <label for="address">Address:</label>
-    <input type="text" class="form-control" id="address" name="address" value="{{$memberResult['address']}}">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <input type="text" class="form-control" id="address" name="address" value={{$memberResult['address'] ?? $memberResult['address']}}>
+      @error("address")
+      <span class="text-danger">{{$message}}</span>
+      @enderror
+  </div>
+    <button type="submit" class="btn btn-default">Update</button>
   </form>
 </div>
 </body>
