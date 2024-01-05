@@ -14,11 +14,11 @@
               <th style="width: 10px">Name</th>
               <th>Slug</th>
               <th>Description</th>
-              <th style="width: 40px">Action</th>
+              <th style="width:40px">Action</th>
             </tr>
           </thead>
           <tbody>
-           
+             @if($tagsDetails)
               @foreach($tagsDetails as $key=>$value)
                 <tr>
                   <td>{{$value['name']}}</td>
@@ -28,6 +28,7 @@
                     <a href="delete_tag/{{$value['id']}}" class="btn btn-sm btn-danger btn-sm"><i class="fas fa-trash"></i></a></td>
                 </tr>
              @endforeach
+             @endif
           </tbody>
         </table>
       </div>

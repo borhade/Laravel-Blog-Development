@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="container">
+  <a href="{{route('getAllMemberDetails')}}">Back To List</a>
   <form action="/update" method="post">
      @csrf
     <div class="form-group">
@@ -36,7 +37,7 @@
       <span class="text-danger">{{$message}}</span>
       @enderror
   </div>
-    <button type="submit" class="btn btn-default">Update</button>
+    <button type="submit" class="btn btn-primary">Update</button>
   </form>
 </div>
 </body>

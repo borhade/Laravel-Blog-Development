@@ -36,7 +36,7 @@ Route::get("/logout",function(){
     }
 });
 
-Route::get("/list","MemberDetails@show")->name("list.getAllDetails");
+Route::get("/list","MemberDetails@show")->name("getAllMemberDetails");
 
 Route::prefix("/page")->group(function(){
     Route::get("/edit_view",function(){
@@ -79,10 +79,13 @@ Route::get("/getEmployee","employeedetails@getEmployeeDetails");
 Route::get("/title","MemberDetails@testHasOne");
 Route::get("/testroute/{key:name}","MemberDetails@testPathModeling");
 Route::get("/check","DashboardController@test");
+/*-----Category Part---------------*/
 Route::resource('category','CategoryController');
 Route::get('/delete_category/{id}','CategoryController@destroy');
 Route::get("/test_email", "EmailController@sendEmail");
-//tag part
+/*-----Tag part---------------*/
 Route::resource("/tag","TagController");
 Route::get("/delete_tag/{id}","TagController@destroy");
 Route::resource("/post","PostController");
+Route::get("/dispatch_batch","JobBatchController@dispatchBatch");
+

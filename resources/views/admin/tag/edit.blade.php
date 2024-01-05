@@ -11,7 +11,8 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form role="form" method="POST" action="{{route('tag.update',[$updateDetails->id])}}">
+        //updateDetails
+        <form role="form"  action="{{route('tag.update',[$updateDetails->id])}}" method="POST">
           @csrf
           @method("PUT")
           <div class="card-body">

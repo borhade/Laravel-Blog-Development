@@ -15,16 +15,25 @@
           @csrf
           <div class="card-body">
             <div class="form-group">
-              <label for="category_name">Tag name</label>
-              <input type="text" class="form-control" name="tag_name">
+              <label for="category_name">Tag Name:</label>
+              <input type="text" class="form-control" name="tag_name" value="{{old('tag_name')}}">
+              @error("tag_name")
+               <span>{{$message}}</span>
+              @enderror
             </div>
             <div class="form-group">
-              <label for="category_name">slug</label>
-              <input type="text" class="form-control" name="tag_slug">
+              <label for="category_name">slug:</label>
+              <input type="text" class="form-control" name="tag_slug" value="{{old('tag_slug')}}">
+              @error("tag_slug")
+                <span>{{$message}}</span>
+              @enderror
             </div>
             <div class="form-group">
-              <label for="description">Description</label>
-              <input type="text" class="form-control" name="tag_description">
+              <label for="description">Description:</label>
+              <input type="text" class="form-control" name="tag_description" value="{{old('tag_description')}}">
+              @error("tag_description")
+                <span>{{$message}}</span>
+              @enderror
             </div>
           </div>
           <!-- /.card-body -->

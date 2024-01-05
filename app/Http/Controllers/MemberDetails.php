@@ -10,6 +10,7 @@ use App\Services\Geolocation\Geolocation;
 use App\Repositories\MemberRepository;
 //use App\Exceptions\GeneralException;
 use App\Http\Requests\ValidationRequest;
+use App\Jobs\InsertMemberDetails;
 class MemberDetails extends Controller
 {
     public $geolocation;
@@ -39,20 +40,33 @@ class MemberDetails extends Controller
     } */
 
     public function show(){
-      $members = Member::orderBy("id","desc")->get();
+
+        $data =[
+           2,3,4,5
+        ];
+
+       $result = collect($data)->reverse(3);
+        //$result = collect($data)->chunk(2);
+
+        //$res =  collect($data)->avg();
+        dd($result);
+
+      //$members = Member::orderBy("id","desc")->get();
        //$res = $this->geolocation->search('abs');
       //$members = Member::with("getMember")->get();
-       return view("userlist",compact("members",$members));
+       //return view("userlist",compact("members",$members));
     }
-
-    public function store(ValidationRequest $req ,MemberRepository $memberRepository){
+//ValidationRequest $req 
+    public function store(Request $req,MemberRepository $memberRepository){
+       
+        //Dispatch(new InsertMemberDetails());
+        //InsertMemberDetails::dispatch();
         $data = $req->only(["name","email","address"]);
         $req->validate([
             "name"=>"required|string",
             "email"=>"required",
             "address"=>"required",
         ]);
-        
         $memberRepository->create($data);
     }
 
@@ -116,9 +130,4 @@ class MemberDetails extends Controller
         return ["result"=>$result]; 
 
     }
-
-
-
-
-
 }

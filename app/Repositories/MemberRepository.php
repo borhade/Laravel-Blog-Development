@@ -3,6 +3,7 @@ namespace App\Repositories;
 use App\Repositories\BaseRepository;
 use App\Member;
 use App\Exceptions\GeneralException;
+use App\Events\UserCreated;
 
 Class MemberRepository extends BaseRepository{
    
@@ -17,6 +18,10 @@ Class MemberRepository extends BaseRepository{
             "address"=>$address
          ]);
       $lastId= $data->id;
+      if($lastId){
+        event(new UserCreated($data));
+      }
+
       throw_if(!$lastId,GeneralException::class,"failed to create",400);
      //return redirect()->route("list.getAllDetails");
    }

@@ -1,3 +1,17 @@
+----------------Php artisan command--------------
+php artisan make::request ValidationRequest
+-----------------Jobs and Queue-------
+php artisan make:job insetMemberdetails
+ Inside handle method you should write your code.
+php artisan queue:work 
+php artisan queue:table
+
+from controller you can call job class
+Dispatch(new InsertMemberDetails());
+--------------------------------------------------------------
+
+
+
 /*-------------------------facades----------------------------------*/
 
 1)Facdes bascially use for statically call  service provider method 
@@ -41,9 +55,13 @@ $res->forceDelete();
 
 ------------------------Getter and setter method-----------
 
-getNameAttribute(){
+getNameAttribute($value){
 
-$this->attributes['name']= 
+return ucfirst($value);
+}
+
+setNameAttribute($value){
+    return $this->attribute["name"]=$value;
 }
 
 
@@ -99,12 +117,12 @@ Inside controller
 		->get();
 
 Restore
-$data=post::withTrashed()->findOrFaile($id);\
+$data=post::withTrashed()->findOrFailed($id);\
 data->restore();
 ------------------------------------------
 Delte Perment
-$data=post::withTrashed()->findOrFaile($id);\
-data->restore();
+$data=post::withTrashed()->findOrFailed($id);\
+data->forceDelete();
 -------------------------------------
 
 Hookes in Cogniter:=
@@ -120,11 +138,15 @@ $hookes["pre_controller"]= [
   "params"=>[1,2,3],
 ]
 
+-------------------------------
+application/config/autoload.php
+
+$autoload['helper'] = array('url', 'form');
+
 3)Last step is  = wrtie your hook code in  application/hook/mycustomhook.php
 
 1)post_controller =
-a)In this example, the performAction method logs information about the request after the controller 
-has processed it. You can customize the logic in the performAction method to suit your application's needs.
+a)In this example, the performAction method logs information about the request after the controller has processed it. You can customize the logic in the performAction method to suit your application's needs.
 
 b) By following these steps, you can set up a post-controller hook in 
 CodeIgniter to perform actions after your controller has handled the incoming request.
@@ -132,8 +154,7 @@ CodeIgniter to perform actions after your controller has handled the incoming re
 2)post_controller_constructor =
 a)This is a convenient way to avoid duplicating code in various controller methods to 
   fetch user data from a database or another source.
- you can set up a post_controller_constructor hook in CodeIgniter to perform actions after the 
- controller constructor but before the controller method handles the incoming request.
+ you can set up a post_controller_constructor hook in CodeIgniter to perform actions after the controller constructor but before the controller method handles the incoming request.
 
 <?php
 class MyHook
@@ -228,10 +249,8 @@ $this->config->item(sess_cookie_name);
 
 ----------------------------How to use session in CI--------
 $this->load->library('session'); 
-$this->session->start() ;// if you want to load manually
-
+$this->session->start() ;// if you want to load manually 
 $this->session->destroy();
-
 $this->session->set_userdata('key',value);
 $this->session->userdata('key');
 $this->session->unset_userdata('key');
@@ -377,6 +396,7 @@ or | vendor/bin/phpunit --filter MemberDetailsTest
 ---------------------
 
 
+
 $str = "VISHAL BORAHDE";
 
 echo strlen($str);
@@ -408,9 +428,16 @@ Factory Design Patteren :-
 
 Imagine you have a "factory" that produces different types of products. For example, let's say it's a toy factory, 
 and it can create different types of toys like cars, dolls, or robots.
-Now, instead of making each toy directly by hand, the factory has a set of instructions for making each type of toy. These instructions are like templates or blueprints. When you want a specific toy, you tell the factory what kind of toy you want, and it follows the right set of instructions to make that toy for you.
-In software, the Factory Design Pattern works in a similar way. You have a "factory" class that knows how to create different types of objects or instances of classes. When you need an object of a particular type, you ask the factory to create it for you. The factory uses the appropriate instructions (or code) to create the object you requested.
+Now, instead of making each toy directly by hand, the factory has a set of instructions 
+for making each type of toy. These instructions are like templates or blueprints. 
+When you want a specific toy, you tell the factory what kind of toy you want, and 
+it follows the right set of instructions to make that toy for you.
+In software, the Factory Design Pattern works in a similar way.
+ You have a "factory" class that knows how to create different types of objects 
+ or instances of classes. When you need an object of a particular type, 
+ you ask the factory to create it for you. The factory uses the appropriate instructions (or code) to create the object you requested.
 The benefits of using the Factory Design Pattern are that it helps you create objects more easily, keeps your code organized, and allows you to switch between different types of objects without changing a lot of code. 
+
 example:
 
 <?php 
@@ -430,6 +457,7 @@ Class Rectangle implements Shape{
      echo"Draw rectangle...";    
   }
 }
+
 
 
 Class Shapefactory {
@@ -491,6 +519,902 @@ In essence, it's a way to ensure that the parts of your cars are compatible with
   print_r($duplicate);
   
   ?>
+
+-------------------------------Magic Function-------
+__dir__
+__line__
+__Method__
+__function__
+__class__
+---------------------Magic-Method-------------------- 
+__construct();
+__destruct();
+__get();
+__set();
+__sleep();
+__walk();
+__isset($property): Determines if an inaccessible property is set.
+__unset($property): Unsets an inaccessible property.
+
+
+//Define your autoload function
+function myAutoloader($class) {
+    include 'path/to/classes/' . $class . '.class.php';
+}
+
+// Register your autoload function
+spl_autoload_register('myAutoloader');
+
+// Now, when you instantiate a class that hasn't been defined yet,
+// the autoloader function (myAutoloader) will be called to load the class file.
+$obj = new MyClass(); // Assuming MyClass a class is instantiated but hasn't been defined yet.
+
+----------------------Reverse Routing------------------
+
+1)Reverse routing in Laravel refers to the ability to generate URLs based on named routes
+2)In Laravel, when you define routes for your application, you can assign them names
+3)Reverse routing allows you to generate URLs for those routes using their names rather than hardcoding the URLs in your application.
+
+example = Route::get('/profile', 'ProfileController@index')->name('profile.index');
+
+-----------------------------EnableQueryLog-----------
+
+
+use Illuminate\Support\Facades\DB;
+
+// Enable query logging
+DB::connection()->enableQueryLog();
+
+// Your code that performs database queries
+
+// Get the executed queries
+$queries = DB::getQueryLog();
+
+// Output or log the queries
+dd($queries);
+------------------------------------------Php artisan-------------------
+PHP artisan down;
+PHP artisan up;
+PHP artisan make:controller;
+PHP artisan make:model;
+PHP artisan make:migration;
+PHP artisan make:middleware;
+
+
+protected $listen = [
+
+  UserCreated:class=>[
+    SendEmail:Class
+  ],
+
+];
+protected $subscribe =[
+    UserCreated::class,
+];
+
+
+create table POST(
+  id int  NOT NULL PRIMARY KEY,
+  name varchar(100),
+  description varchar(100),
+   empId int,
+   foreign key empId references EMPLOYEE(empId)
+);
+
+DELIMITER $$
+create PROCEDURE GetDetails(IN $product_id INT) 
+BEGIN
+ select * from product where id=$product_id;
+END;
+$$
+------------------------php job batching-----
+
+php artisan queue:work --tries=3:
+php artisan queue:retry all
+1)Means job run 3 times before making it failed
+2)When a job fails, Laravel's queue system can automatically retry it to give it another chance to succeed.
+
+
+-----------------------------queue and worker---------------
+
+php artisan queue:work what is meaning of this can you explain in simple term
+
+Certainly! The php artisan queue:work command in Laravel is used to start a worker process that listens for incoming jobs in the queue and processes them. Let me break it down in simpler terms:
+
+Queue:
+In web applications, there are tasks that take time to complete, such as sending emails, processing images, or performing any operation that doesn't need to happen immediately. Instead of making users wait for these tasks to finish, you can put them in a queue.
+Worker:
+
+A worker is like an employee waiting to perform tasks from the queue. The worker's job is to pick up tasks (jobs) from the queue and execute them in the background.
+php artisan queue:work:
+
+This is a command you run in the terminal (command line) of your Laravel application. It starts a worker process that listens to the queue and performs tasks as they come in.
+
+When you dispatch a job (a task) in your Laravel application, it goes into the queue. The queue:work command is what makes sure those jobs get done.
+
+For example, if you have a job to send an email, instead of waiting for the email to be sent before responding to the user's request, you can dispatch the email-sending job to the queue. The queue:work command will then pick up that job and send the email in the background, allowing your application to respond faster to users.
+
+In summary, php artisan queue:work is like hiring a worker to handle background tasks for your Laravel application. It ensures that tasks are performed efficiently without making users wait for them to complete.
+-----------------------------------------Job Batch--------------------
+This is useful when you have multiple jobs to execute, and you want to track the overall progress of the batch.
+-------------------------Sql Injection prevent by-------
+
+select * from member where name ="" and adresss="" or "x"="x";
+1)Use prepared statement
+2)Escaping = Escape Special charaters
+3)Typecasting =  Typecast input
+
+----------------------
+
+--------------find 1 to 100--------prime number------$_COOKIE
+
+$number =2;
+$primeNumber =[];
+while($number < 100){
+  $flag=0;
+  for($i=2;$i<$number;$i++){
+    if($number%$i==0){
+      $flag =1;
+    }
+  }
+  
+  if($flag==0){
+     $primeNumber[] = $number;
+  }
+  $number=$number+1;
+}
+var_dump($primeNumber);
+----------------------------------Remove duplicate from array--------------
+$numbers = array(1, 3, 4, 2, 1, 6, 4, 9, 7, 2, 9);
+$removeDuplicate=[];
+
+foreach($numbers as $key=>$value){
+  
+    $removeDuplicate[$value] = $value; //remove duplicate
+    //$removeDuplicate[$value][$key] = $value;
+}
+
+
+select e1.salary from employee e1 where 2 = (select count(distinct(e2.salary)) from employee e2 
+where e1.salary>e2.salary);
+
+__line__
+__TRAIT__
+__function__
+__Method__
+
+------------------
+session_set_cookie_params(time)
+---------------------------------------------change laravel port--
+
+php artisan serve --port= 8080
+php artisan migrate:rollback
+php artisan migrate:rollback --step=5
+
+factory = illuminate\database\eloquent\factory;
+softdelete = illuminate\database\eloquent\SoftDeletes ;
+
+
+If your CodeIgniter version is prior to 2.2, then one can get this error. The ideal solution is to upgrade CI to latest. If that’s not possible then edit the core/Common.php file and make the following change: 
+
+$_config[0] = & $config; 
+return $_config[0];
+
+--------------------------------Secure Session---------
+1)ENCRYPT data using https://
+2)session_regenerate_id();
+3)validate session
+4)whenever user is inactive timout session
+5)Generate strong session id = md5,base_encode_64 ,random_byte
+6)validate user ip,user_agent,
+7)strore session id encrypt formate;
+---------------------------------------
+How do you sanitize user input in PHP?
+1)Use prepared statments
+2)filter input
+3)Use strip_tags
+4)regular expression = Remove the special character
+5)use htmpspecial_chars
+6)preg_match
+7)preg_replace
+-----------------------------------------
+Difference between mysql and mysqli in php
+1)SSl layered
+2)performae multiple queries in single call
+3) use prepared statement to avoid sql Injection
+4) use object oriendted approch
+------------------------------------------------
+What is lazy loading, and how can it be implemented in PHP? can explain with example 
+
+Lazy loading is a design pattern where an object or resource is loaded only when it is needed,
+ rather than being loaded eagerly. This can help improve performance and resource utilization
+ by deferring the loading of resources until they are actually required.
+ ----------------------------------------------------------------------
+How do you reduce the number of database queries for better performance? can explain with example 
+1)Refactor query instead of big join
+2)Use IN Clause for Multiple Criteria:
+3)Use LIMIT for Pagination:
+4)Cache Query Results:
+5)Optimize Database Indexing:
+6)Avoid select *
+---------------------------------
+Explain the purpose of the microtime() function in PHP ? can explain with example in 
+
+ 1)microtime() function basically used for convert unixtime to milisecond and mostly used for 
+   check memory usage 
+   to vget memory usage value using below keyword
+   a)memory_get_usage();
+   b)memory_get_peak_usage();
+
+-----------------------
+set_time_limit(); 
+ini_set('max_execution_time',60sec);
+ini_set("display_errors",1)
+error_reporting(E_ALL);
+ini_set(session.gc_maxlifetime,time);
+----------------------------
+
+How can you optimize images for web performance in PHP? can you explain with example
+1)use differen library to compress images
+2) resize images
+3)use responsive images.
+
+/*$position = 2;
+	for($i=$n-1;$i>=$position;$i--){
+	  
+	  $test[$i+1]= $test[$i];
+	  //echo ($test[$i])."\n";
+	  //var_dump($i);
+	  //$test[$i-1]= $test[$i];
+	}*/
+
+  -------------------------------------
+
+  what standard you will be follow to develop php project from scrach
+  1)proper folder structure
+  2)setup develop code according to PSR standard 
+  3)Autoload functionality to autoload the function
+  4)composer.json setup using composer install
+  5)setup testing ,codereview ,version control(GIT),ci/cd for continues integreation.
+	
+-------------------------------------------------------
+  what standard you will be follow to develop Laravel project from scratch
+  1)Use proper coding style and coding standard .autoloader (psr-1,2,4)
+  2)Use Proper Naming Convention
+  3)check proper ValidationRequest
+  4)setup proper middlware to filter out http request
+  5)setup proper unit testing, integration testing
+  6)Use migration and seeder 
+  7)setup proper folder structure
+  8)Use resource controller
+  9)Use php artisan command
+  10)set proper env varialble 
+  11)proper documentent and version control
+  ----------------------------------------------------------------
+  what parameter will check during code review ?
+
+-------------------------------------------------------
+what strategies follow for deloyment of code 
+1)
+Deploying code to production involves several steps to ensure a 
+smooth and reliable process. Here are some strategies and best practices to follow for code deployment:
+
+Continuous Integration and Continuous Deployment (CI/CD):
+
+Implement a CI/CD pipeline to automate the build, test, and deployment processes.
+Use tools like Jenkins, GitLab CI, Travis CI, or GitHub Actions to facilitate automation.
+Version Control:
+
+Use version control systems like Git to track changes and tag releases.
+Ensure that the code to be deployed is tagged with the appropriate version number.
+Environment Configuration:
+
+Maintain separate environments for development, testing, staging, and production.
+Ensure that configuration files for each environment are correctly set.
+Database Migrations:
+Use database migration scripts to manage database changes.
+Test migrations in a staging environment before applying them to production.
+
+Rollback Plan:
+Have a rollback plan in case something goes wrong during deployment.
+Ensure that the team knows how to quickly revert to the previous version.
+
+Deployment Scripts:
+Use deployment scripts or automation tools to streamline the deployment process.
+Automate repetitive tasks to reduce the risk of human error.
+Health Checks and Monitoring:
+
+Implement health checks to verify the application's status after deployment.
+Set up monitoring to detect issues and performance degradation quickly.
+
+Blue-Green Deployment:
+If feasible, use a blue-green deployment strategy.
+Deploy the new version to a separate environment (green), test thoroughly, and switch traffic when ready.
+
+Feature Toggles (Feature Flags):
+Implement feature toggles to enable or disable specific features without deploying new code.
+Use feature toggles for gradual rollouts and A/B testing.
+
+Load Testing:
+Conduct load testing in a staging environment to ensure the application can handle production-level traffic.
+Identify and address performance bottlenecks.
+
+Communication and Coordination:
+Communicate deployment schedules and changes to the team.
+Coordinate with other teams that might be affected by the deployment.
+
+Backup:
+Ensure that backups of databases and critical data are taken before deployment.
+Have a plan for restoring data in case of a catastrophic failure.
+
+Documentation:
+Document the deployment process, including steps, configurations, and dependencies.
+Keep documentation up-to-date with any changes to the deployment process.
+
+Security:
+Follow security best practices during deployment.
+Ensure that sensitive information, such as API keys and credentials, is handled securely.
+
+Post-Deployment Tasks:
+Perform post-deployment tasks, such as clearing caches, updating search indexes, and running additional tests.
+Feedback and Retrospectives:
+
+Collect feedback from the team and stakeholders after each deployment.
+Conduct retrospectives to identify areas for improvement in the deployment process.
+Immutable Infrastructure:
+
+Consider using immutable infrastructure, where deployments involve replacing entire instances rather than updating existing ones.
+Compliance and Auditing:
+
+Ensure that the deployment process complies with any regulatory requirements.
+Keep audit trails of deployments for accountability and troubleshooting.
+
+
+
+
+CI/CD 
+1)whenever any deveopler commit code after that code go throw some 
+  stages first of all 
+  1)build code
+  2)perfomr testing
+  3)scan = security testing
+  4)deploy on dev branch
+  5)then perform tester testing
+  6)finally deploy on production. 
+  -----------------------------------------
+
+  1)Movies category
+  2)filter movies on language
+  3)Detect Location
+  4)On the basis of location  findout thatre
+  5)book ticket 
+
+0)User Request 
+1)Loadbalancer
+2)Application server
+3)Threater server
+4)Payment Gateway
+5)Database(Rdms+nosql)
+6)cache   
+8)suggestion processing
+
+
+
+  Movies 
+    name 
+    category
+    languagae 
+    location 
+    booktime 
+    thatreId
+
+
+category
+  Action 
+  crime
+  drama
+
+  Languages
+    Hindi
+    Marathi
+    English
+
+   booktime
+      day
+      date
+      slot
+      slot_flag
+
+--------------------------Laravel passport for API Authentication---------------
+composer require laravel/passport
+php aritsan migrate 
+php artisan passport:install
+php artisan config:cache
+// Creating a token without scopes...
+$token = $user->createToken('Token Name')->accessToken;
+
+
+Token Access = create New token
+Refresn Token = Inbetween any token is expire then without logout automatically token create
+Revoke Token = Revoke token to restrict some particular access
+Purge Token  = clean all expired and old tokens.
+-----------------------------------------
+Laravel Horizon 
+1)Laravel horizon is dashord on that we can check each job status 
+
+-----------------------
+Hashing:
+
+Purpose: Hashing is primarily used for protecting passwords or sensitive data.
+Transformation: Hashing is a one-way process. Once data is hashed, it cannot be reversed or decrypted to obtain the original data.
+Output: The result of hashing is a fixed-length string of characters, often a hash code.
+Example in Laravel: Laravel uses hashing to securely store user passwords. When a user creates an account or updates their password, Laravel hashes the password and stores the hash in the database. During login, 
+the entered password is hashed, and the hash is compared to the stored hash for authentication.
+Encryption:
+
+Purpose: Encryption is used for protecting data during transmission or storage.
+Transformation: Encryption is a two-way process. Data can be encrypted to make it unreadable, and then it can be decrypted to obtain the original data.
+Output: The result of encryption is a ciphertext, which is a scrambled version of the original data.
+Example in Laravel: Laravel might use encryption when storing sensitive information 
+in cookies or when transmitting data between a client and a server over an insecure network. 
+The data is encrypted before transmission and decrypted on the other end.
+
+
+
+Laravel Dusk 
+1)This package used for testing purpose.
+
+------------------------------------------
+
+Here's how you can exclude CSRF protection for a specific form in Laravel:
+
+protected $excepted = [
+      //ADD ROUTE
+];
+
+---------------------------------Authentication and authorization------------------
+Certainly! Let's break down the concepts of authentication and authorization in simple terms:
+
+Authentication:
+
+Purpose: Authentication is the process of verifying the identity of a user, system, or entity. It answers the question, "Who are you?"
+Example: Imagine logging into your email account by entering your username and password. The system checks if the provided credentials match an authorized user.
+Authorization:
+
+Purpose: Authorization is the process of determining what actions or resources a user, system, or entity is allowed to access after being authenticated. It answers the question, "What are you allowed to do?"
+Example: After logging into your email account (authentication), authorization determines whether you can read, send, or delete emails based on your user role or permissions.
+In Simple Terms:
+
+Authentication is like showing your ID to prove who you are at the entrance of a secure building.
+Authorization is like being granted different levels of access inside the building based on your role or permissions. For example, some people may have access to all floors, while others can only access specific rooms.
+Why Both Are Needed?
+
+Security:
+
+Authentication: Ensures that only verified users can access a system or application.
+Authorization: Controls what actions those authenticated users are allowed to perform, adding an extra layer of security.
+Granular Control:
+
+Authentication: Establishes identity but doesn't specify what someone can do once authenticated.
+Authorization: Provides fine-grained control, allowing administrators to define different levels of access based on roles, responsibilities, or permissions.
+
+pathinfo(file_name,PATHINFO_)
+----------------------------
+
+Return an array of filenames or directories that matches the specified pattern:
+
+<?php
+print_r(glob("*.txt"));
+?>
+
+touch
+touch basically used for modify touch and access file name .
+umask = set permission for the file
+rewind =  set pointer to beginner.
+-------------------------------------------
+With File Uploads (enctype="multipart/form-data"):
+When your form includes file uploads (e.g., input of type file), 
+you need to set enctype="multipart/form-data".
+
+-----------------------------------benefits of migration-------
+1)version control
+2)collabration is easily
+3)Database rollback is also easily
+4)Manage consistent database schema.
+
+---------------------------
+
+coverage report in testing
+(No of line pass in testing/total no of line in the code)*100;
+
+----------
+git fetch = fetch changes from remote to localhost
+git pull = git fetch + git merge
+git reset and revert basically used for move to speicifi commit
+git reset = git reset head ~2 = commit is deleted
+git reset soft = changes are prserve
+git reset hard = changes are remove permantly.
+git revert = git revert "specific commit" = commit not deleted
+git stash = push changes into stack
+git stash apply = pop up changes from stack
+git stash save "commit".
+------------------------------
+Default middlware  in laravel
+1)Throttle
+2)cors 
+3)verifyCsrfToken
+4)convertEmptyStringToNull
+5)trimstring
+6)cacheheader
+7)authenticated
+6)guest
+8)startsesssion
+-----------
+Default trait in laravel is
+1)hasapitoken
+2)softdelete
+3)AuthorizeResource
+4)HasAttributes
+5)HasEvents.
+
+-------------------------
+Polymorphism is achieve by 
+
+interface shape{
+  public function getArea();
+}
+
+class rectangle implements shape{
+
+
+
+}
+
+----------------
+Dependency Inversion 
+ 1)High level module is not depend on low level module.
+ 2)Instead of depend on Abstraction
+    Class A  
+    Class B     
+    Class C 
+
+3)class  user_profile {
+   test = new addkey();
+   test.addkey("tst","test_2");  
+}
+
+  class cachestore{
+     public function addkey(A,B){
+          //in future may be change
+     } 
+
+  }
+
+
+instead of that i will create interface of cachestore
+
+  interface cachestore{
+     //public function addkey(A,B){}
+     //public function deletekey(){}
+  }
+
+  class cachservice implements cachestore{
+    public function addkey(){
+
+    }
+    
+  }
+  -------------------------
+
+
+  1)yield = It acts as a placeholder in a master layout blade file, where content from child views can be injected
+
+2)extends =
+  @extends('')
+ By extending a master layout, the child view automatically inherits its styles, scripts, and other assets.
+
+
+when use incldue ?
+ While alternatives are preferred, there are still some situations where @include might be useful:
+
+Simple Content Injection: If you need to quickly inject small, static snippets of HTML or Blade directives into different views, @include can be a convenient option.
+Legacy Code: If you're working with an existing codebase that heavily relies on @include, replacing it might not be immediately feasible. Use it cautiously and refactor to components when possible.
+---------------------------------
+
+composer require pragmarx/otp
+
+<?php
+
+namespace App\Http\Controllers;
+use PragmaRX\Otp\Otp;
+
+class OTPController extends Controller
+{
+    public function generateOTP()
+    {
+        // Create an instance of the Otp class
+        $otp = app(Otp::class);
+        // Generate a new OTP
+        $generatedOTP = $otp->generate();
+        // You can customize the length of the OTP by passing a parameter to the generate method
+        // $generatedOTP = $otp->generate(6); // Generates a 6-digit OTP
+        return response()->json(['otp' => $generatedOTP]);
+    }
+}
+
+
+//first day of every week 
+ $test =  strtotime("last sunday +7 day");
+ $test_2= date("d-m-Y",$test);
+ var_dump($test_2);
+
+ -----------------------------------------
+composer update
+composer install
+composer search package_name
+composer remove package_name
+composer dump --autoload =
+    pupose of this 
+    1) Autload class file  with using require statment
+    2)if suppose any pakcage file is create for to inform the composer we use the above command. 
+
+---------------------------
+how to run seeder class
+
+Inside databaseSeeder 
+ 
+ public function run(){
+      $this->call(["seeder_1::class","seeder_1::class"]);
+ }  
+
+to run seeder you can use 
+php artisan db:seed
+to run speicific seeder we can you below command
+php atisan db:seed --class = seeder_1
+
+-------------------------------------------
+TO convert HTML to pdf
+
+In Laravel, you can use the "laravel-dompdf" package to convert HTML to PDF. Dompdf is an HTML to PDF converter for Laravel, and the "laravel-dompdf" package provides a wrapper for integrating Dompdf into Laravel.
+
+composer require barryvdh/laravel-dompdf
+
+-------------------
+
+TO convert HTML to pdf(CI)
+ In CodeIgniter (CI), you can use third-party libraries to convert HTML to PDF. One popular library for this purpose is "mpdf." It is not a native CI library, but it can be integrated with CodeIgniter to generate PDFs from HTML content.
+ ---------------------------------------------
+
+ can I use mysam and innodb engine in mysql at one time in mysql database?
+   Yes, you can use MyISAM and InnoDB engines together in a single MySQL database.
+
+   CREATE TABLE myisam_table (id INT, ...) ENGINE=MyISAM;
+   CREATE TABLE innodb_table (id INT, ...) ENGINE=InnoDB; 
+
+Check existing table's engine:
+ SHOW TABLE STATUS LIKE 'table_name';
+
+ Convert table's engine:
+ ALTER TABLE table_name ENGINE=InnoDB;
+ ---------------------------------------------------
+ what do you mean row level locking in mysql can you explain with example ?
+
+ SELECT * FROM products WHERE product_id = 1 FOR UPDATE; in Transaction 1 acquires a lock on the row with product_id = 1, preventing other transactions from modifying this row until Transaction 1 is committed or rolled back.
+
+Similarly, SELECT * FROM products WHERE product_id = 2 FOR UPDATE; in Transaction 2 acquires a lock on the row with product_id = 2.
+
+Because the two transactions are updating different rows (product_id = 1 and product_id = 2), they can proceed simultaneously. Row-level locking allows for greater concurrency compared to table-level locking, where the entire table would be locked during updates, potentially leading to contention and decreased performance in a multi-user environment.
+
+-----------------------------------------------------------------------------
+How validate email in php ?
+
+function validate($email){
+  $email = filter_var($email,FILTER_SANITIZE_EMAIL);
+  $test = filter_var($email,FILTER_VALIDATE_EMAIL);
+  var_dump($test);
+}
+
+----------------------------
+Laravel Dusk
+
+composer require --dev laravel/dusk
+php artisan dusk:install
+--------------------------------------Laravel Authentication-----------
+
+composer require laravel/passport
+php artisan migrate
+php artisan passport:install
+
+-------------------------------------------------
+namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
+ 
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+}
+
+----------------------
+config/auth.php
+
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+ 
+    'api' => [
+        'driver' => 'passport',
+        'provider' => 'users',
+    ],
+],
+
+create controller
+
+php artisan make:controller API\UserController
+php artisan serve --port=8080
+
+--------------------------------------
+
+Define the Task:
+
+In Laravel, tasks are defined in the App\Console\Kernel class. Open the app/Console/Kernel.php file and look for the schedule method. This method is where you can define your cron jobs.
+
+Here's an example of a simple task that logs a message:
+
+php
+Copy code
+// File: app/Console/Kernel.php
+
+protected function schedule(Schedule $schedule)
+{
+    $schedule->call(function () {
+        \Log::info('Cron job is running!');
+    })->daily(); // This task will run daily
+}
+In this example, the call method is used to define an anonymous function that logs a message using Laravel's logging system. The daily method specifies that this task should run once a day.
+
+--------------------------
+polymorphic relationship:-
+
+
+comments:
+  id
+  commentable_id
+  commentable_type
+  date
+  body
+
+  Schema::create('comments', function (Blueprint $table) {
+    $table->increments('id');
+    $table->morphs(‘commentable’);
+    $table->text('body');
+    $table->date('date');
+});
+
+
+$table→morphs('commentable') would automatically create two columns for the id and type using the text passed to it, so it will result in commentable_id and commentable_type
+
+--------------------------
+
+base_url() = base_url basically used for load asset like images,style
+site_url = used with anchor tag and ajax
+
+you can used both interchangeably.
+
+
+$autoload["helper"]=array("url","form");
+
+--------------------
+how to remove index.php from url
+
+Two way used to remove index.php
+
+1)write rule in .htaccess page
+
+2)inside config page:
+
+$config["index_page"] = "index.php";
+
+APPPATH = It gives path to application folder xammp/ci-service/application(point system folder)
+BASEPATH= It gives path to system folder xammp/ci-service/system(point system folder)
+FCPATH= It gives path to project folder xammp/ci-service/
+
+------------------
+
+codegniter 3 and 4 differnce
+
+1)PHP Version:
+CodeIgniter 3 is designed to work with PHP 5.2.4 or newer.
+CodeIgniter 4 requires PHP 7.2 or newer.
+-------------------------------------
+2)Namespace and PSR-4 Autoloading:
+CodeIgniter 3 uses a class prefix system and a custom autoloader.
+CodeIgniter 4 follows PSR-4 autoloading standards and uses namespaces.
+------------------------------------------------------
+3)Support for Composer:
+CodeIgniter 3 doesn't have built-in Composer support.
+CodeIgniter 4 encourages the use of Composer for package management and autoloading.
+----------------------------------------------
+4)File Structure:
+
+CodeIgniter 3 has a flat file structure, where controllers, models, and views are placed in specific directories.
+CodeIgniter 4 has a more modular and organized structure, with namespaces reflecting the directory structure.
+-----------------------------------------------
+
+Namespaced Controllers:
+CodeIgniter 3 controllers are not namespaced.
+CodeIgniter 4 controllers are namespaced, providing better organization and avoiding naming conflicts.
+----------------------------------------------------------
+CodeIgniter 4 Folder Structure:
+
+app Folder:
+Replaces the application folder from CodeIgniter 3.
+Contains controllers, models, views, and other application-specific files.
+Subdirectories like Controllers, Models, Views mirror the structure of the CodeIgniter 3 application folder.
+--------------------------------------------
+writable Folder:
+Introduced in CodeIgniter 4, it's used for storing files that need write access, such as logs, caches, and uploaded files.
+This separation is a security improvement over CodeIgniter 3.
+
+------------------------------
+
+how to load two database  and access in controller in codegniter
+
+$db_1 = $this->load->database("default");
+$db_1 = $this->load->database("second_db");
+
+$this->db_1->select("*") // for 1st db
+$this->db_2->select("*"") // for 2nd db
+-------------------------------------------
+
+what is difference between $_POST["first_name"] and $this->input() in codegniter
+
+security:-
+provide xss_atttck security
+provide default if input parameter is blank
+
+flexibility:-
+$this->input->server() = access server information
+$this->input->cookie() = access cookie information
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

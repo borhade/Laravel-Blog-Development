@@ -21,3 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get("/getList/{id}","MemberDetails@checkList");
 Route::delete("/removeMember/{id}","MemberDetails@memberRemove");
 Route::post("/add","MemberDetails@addMember");
+//Route::post("/login",[UserController::class,"userlogin"]);
+Route::post("/login","LoginController@userlogin");
+
+/*Route::middleware("auth:api")->group(function(){
+    Route::get("/getuser",[LoginController::class,"getUserDetails"]);
+});*/

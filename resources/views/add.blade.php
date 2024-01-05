@@ -12,9 +12,9 @@
 </head>
 <body>
 <div class="container">
+<a href="{{route('getAllMemberDetails')}}">Back To List</a>
   <form action="/adduser" method="post">
      @csrf
-    
     <div class="form-group">
       <input type="hidden" class="form-control"  name ="id">
     </div>

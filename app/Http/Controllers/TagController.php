@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Repositories\TagRepository;
 use Illuminate\Http\Request;
 use App\Tag;
 //use App\Http\Requests\ValidationRequest;
@@ -35,25 +35,13 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,TagRepository $tagRepository)
     {
-
-        var_dump($request->input("tag_slug"));
-       
-        //$validatedData  = $request->validated();
-      /*  $validatedData= $request->validate([
-            "tag_name"=>"required",
-            "tag_slug"=>"required,",
-            "tag_description"=>"required",
-        ]); */
-
-        $data =[
-            'name'=>$request->input('tag_name'),
-            'slug'=>$request->input('tag_slug'),
-            'description'=>$request->input('tag_description'),
-        ];
+        $data = $request->only(['tag_name','tag_slug','tag_description']); 
+        var_dump($data);
+        //$tagRepository->create($data);    
         //var_dump($validatedData);
-        Tag::create($data); 
+       
     }
 
     /**
@@ -87,8 +75,10 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id,TagRepository $tagRepository)
+    {  
+        $data = $request->only(['tag_name','tag_slug','tag_description']);
+        $tagRepository->update($data);
         echo"update";
     }
 
